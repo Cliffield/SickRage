@@ -30,6 +30,7 @@ class EpisodeTags(object):
             'mpeg': tags.mpeg,
             'xvid': tags.xvid,
             'netflix': tags.netflix,
+			'amazon': tags.amazon,
         }
 
     def _get_match_obj(self, attr, regex=None, flags=0):
@@ -128,6 +129,10 @@ class EpisodeTags(object):
             return 'dlmux'
         if self.netflix:
             return self.netflix
+        if self.amazon: 
+            return self.amazon
+        if self.itunes:
+            return self.itunes
         else:
             attr = 'web'
             match = self._get_match_obj(attr)
@@ -271,9 +276,19 @@ class EpisodeTags(object):
     @property
     def netflix(self):
         """
-        Netflix tage found in name
+        Netflix tag found in name
         :return: an empty string if not found
         """
         attr = 'netflix'
+        match = self._get_match_obj(attr)
+        return '' if not match else match.group()
+
+    @property
+    def amazon(self):
+        """
+        Amazon tag found in name
+        :return: an empty string if not found
+        """
+        attr = 'amazon'
         match = self._get_match_obj(attr)
         return '' if not match else match.group()
