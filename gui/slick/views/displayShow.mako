@@ -147,7 +147,8 @@
                                     <a href="${anon_url('http://thexem.de/search?q=', _show.name)}" rel="noreferrer" onclick="window.open(this.href, '_blank'); return false;" title="http://thexem.de/search?q-${show.name}"><span alt="" class="displayshow-icon-xem" /></a>
                                 % endif
                                 <a href="${anon_url('https://fanart.tv/series/', _show.indexerid)}" rel="noreferrer" onclick="window.open(this.href, '_blank'); return false;" title="https://fanart.tv/series/${show.name}"><span class="displayshow-icon-fanart" /></a>
-                            </div>
+                                <a href="${anon_url('https://www.glotz.info/show/', _show.indexerid)}" rel="noreferrer" onclick="window.open(this.href, '_blank'); return false;" title="https://www.glotz.info/show/${show.name}"><span class="displayshow-icon-glotz" style="background: url('../images/indexers/glotz16.png');" /></a>
+							</div>
                             <div class="pull-left col-lg-8 col-md-8 col-sm-12 col-xs-12">
                                 <ul class="tags">
                                     % if show.genre and not show.imdb_info.get('genres'):
