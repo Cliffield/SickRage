@@ -28,8 +28,8 @@ indexerConfig = {
         'name': 'theTVDB',
         'module': Tvdb,
         'api_params': {
-            'apikey': 'F9C450E78D99172E',
-            'language': 'en',
+            'apikey': '9DAF49C96CBF8DAC',
+            'language': 'de',
             'useZip': True,
         },
         'session': helpers.make_session(),
@@ -38,7 +38,7 @@ indexerConfig = {
         'icon': 'thetvdb16.png',
         'scene_loc': 'http://sickrage.github.io/scene_exceptions/scene_exceptions.json',
         'show_url': 'http://thetvdb.com/?tab=series&id=',
-        'base_url': 'http://thetvdb.com/api/%(apikey)s/series/'
+        'base_url': 'https://www.glotz.info/api/%(apikey)s/series/'
     }
 }
 
