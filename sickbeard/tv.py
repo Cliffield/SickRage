@@ -810,11 +810,13 @@ class TVShow(object):  # pylint: disable=too-many-instance-attributes, too-many-
         sql_results = main_db_con.select("SELECT * FROM imdb_info WHERE indexer_id = ?", [self.indexerid])
 
         if not sql_results:
-            logger.log(str(self.indexerid) + ": Unable to find IMDb show info in the database")
-            return
-        else:
-            self.imdb_info = dict(zip(sql_results[0].keys(), sql_results[0]))
+            self.loadIMDbInfo()
+            sql_results = main_db_con.select("SELECT * FROM imdb_info WHERE indexer_id = ?", [self.indexerid])
+            if not sql_results:
+                logger.log(str(self.indexerid) + ": Unable to find IMDb show info in the database")
+                return
 
+        self.imdb_info = dict(zip(sql_results[0].keys(), sql_results[0]))
         self.dirty = False
         return True
 
@@ -868,10 +870,16 @@ class TVShow(object):  # pylint: disable=too-many-instance-attributes, too-many-
 
         self.status = getattr(myEp, 'status', 'Unknown')
 
+    def check_imdbid(self):
+        try:
+            int(re.sub(r"[^0-9]", "", self.imdbid))
+        except (ValueError, TypeError):
+            self.imdbid = ""
+
     def loadIMDbInfo(self):  # pylint: disable=too-many-branches
 
         imdb_info = {
-            'imdb_id': self.imdbid,
+            'imdb_id': '',
             'title': '',
             'year': '',
             'akas': [],
@@ -890,16 +898,26 @@ class TVShow(object):  # pylint: disable=too-many-instance-attributes, too-many-
         else:
             i = imdb.IMDb()
 
-        if not self.imdbid:
+        # Check that the imdbid we have is valid for searching
+        self.check_imdbid()
+
+        if self.name and not self.imdbid:
             self.imdbid = i.title2imdbID(self.name, kind='tv series')
+
+        # Make sure the lib didn't give us back something bogus
+        self.check_imdbid()
 
         if not self.imdbid:
             logger.log(str(self.indexerid) + ": Not loading show info from IMDb, because we don't know the imdbid", logger.DEBUG)
+            # Set to empty to avoid Keyerrors
+            self.imdb_info = imdb_info
             return
 
         logger.log(str(self.indexerid) + ": Loading show info from IMDb", logger.DEBUG)
 
         imdbTv = i.get_movie(str(re.sub(r"[^0-9]", "", self.imdbid)))
+
+        imdb_info[b'imdb_id'] = self.imdbid
 
         for key in [x for x in imdb_info.keys() if x.replace('_', ' ') in imdbTv.keys()]:
             # Store only the first value for string type
@@ -1173,12 +1191,9 @@ class TVShow(object):  # pylint: disable=too-many-instance-attributes, too-many-
 
         helpers.update_anime_support()
 
-        if self.imdbid:
-            controlValueDict = {"indexer_id": self.indexerid}
-            newValueDict = self.imdb_info
-
+        if self.imdbid and self.imdb_info:
             main_db_con = db.DBConnection()
-            main_db_con.upsert("imdb_info", newValueDict, controlValueDict)
+            main_db_con.upsert("imdb_info", self.imdb_info, controlValueDict)
 
     def __str__(self):
         toReturn = ""
@@ -1439,7 +1454,7 @@ class TVEpisode(object):  # pylint: disable=too-many-instance-attributes, too-ma
                        (id=self.show.indexerid, subtitles=subtitle_list, show=self.show.name,
                         ep=episode_num(self.season, self.episode)), logger.DEBUG)
 
-            notifiers.notify_subtitle_download(self.prettyName(), subtitle_list)
+            notifiers.notify_subtitle_download(self.pretty_name(), subtitle_list)
         else:
             logger.log("{id}: No subtitles downloaded for {show} {ep}".format
                        (id=self.show.indexerid, show=self.show.name,
@@ -2005,7 +2020,7 @@ class TVEpisode(object):  # pylint: disable=too-many-instance-attributes, too-ma
             return strings
         return self._format_pattern(pattern)
 
-    def prettyName(self):
+    def pretty_name(self):
         """
         Returns the name of this episode in a "pretty" human-readable format. Used for logging
         and notifications and such.
@@ -2472,27 +2487,28 @@ class TVEpisode(object):  # pylint: disable=too-many-instance-attributes, too-ma
         # move the ep file
         result = helpers.rename_ep_file(self.location, absolute_proper_path, absolute_current_path_no_ext_length)
 
-        # move related files
-        for cur_related_file in related_files:
-            # We need to fix something here because related files can be in subfolders and the original code doesn't handle this (at all)
-            cur_related_dir = ek(os.path.dirname, ek(os.path.abspath, cur_related_file))
-            subfolder = cur_related_dir.replace(ek(os.path.dirname, ek(os.path.abspath, self.location)), '')
-            # We now have a subfolder. We need to add that to the absolute_proper_path.
-            # First get the absolute proper-path dir
-            proper_related_dir = ek(os.path.dirname, ek(os.path.abspath, absolute_proper_path + file_ext))
-            proper_related_path = absolute_proper_path.replace(proper_related_dir, proper_related_dir + subfolder)
+        if sickbeard.MOVE_ASSOCIATED_FILES:
+            # move related files
+            for cur_related_file in related_files:
+                # We need to fix something here because related files can be in subfolders and the original code doesn't handle this (at all)
+                cur_related_dir = ek(os.path.dirname, ek(os.path.abspath, cur_related_file))
+                subfolder = cur_related_dir.replace(ek(os.path.dirname, ek(os.path.abspath, self.location)), '')
+                # We now have a subfolder. We need to add that to the absolute_proper_path.
+                # First get the absolute proper-path dir
+                proper_related_dir = ek(os.path.dirname, ek(os.path.abspath, absolute_proper_path + file_ext))
+                proper_related_path = absolute_proper_path.replace(proper_related_dir, proper_related_dir + subfolder)
 
-            cur_result = helpers.rename_ep_file(cur_related_file, proper_related_path,
-                                                absolute_current_path_no_ext_length + len(subfolder))
-            if not cur_result:
-                logger.log(str(self.indexerid) + ": Unable to rename file " + cur_related_file, logger.ERROR)
+                cur_result = helpers.rename_ep_file(cur_related_file, proper_related_path,
+                                                    absolute_current_path_no_ext_length + len(subfolder))
+                if not cur_result:
+                    logger.log(str(self.indexerid) + ": Unable to rename file " + cur_related_file, logger.ERROR)
 
-        for cur_related_sub in related_subs:
-            absolute_proper_subs_path = ek(os.path.join, sickbeard.SUBTITLES_DIR, self.formatted_filename())
-            cur_result = helpers.rename_ep_file(cur_related_sub, absolute_proper_subs_path,
-                                                absolute_current_path_no_ext_length)
-            if not cur_result:
-                logger.log(str(self.indexerid) + ": Unable to rename file " + cur_related_sub, logger.ERROR)
+            for cur_related_sub in related_subs:
+                absolute_proper_subs_path = ek(os.path.join, sickbeard.SUBTITLES_DIR, self.formatted_filename())
+                cur_result = helpers.rename_ep_file(cur_related_sub, absolute_proper_subs_path,
+                                                    absolute_current_path_no_ext_length)
+                if not cur_result:
+                    logger.log(str(self.indexerid) + ": Unable to rename file " + cur_related_sub, logger.ERROR)
 
         # save the ep
         with self.lock:
