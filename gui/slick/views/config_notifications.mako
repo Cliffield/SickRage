@@ -1659,122 +1659,6 @@
 
             <div class="config-group-divider"></div>
 
-            <!-- /nma component-group //-->
-            <div class="row">
-                <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                    <div class="component-group-desc">
-                        <span class="icon-notifiers-nma" alt="" title="${_('NMA')}"></span>
-                        <h3><a href="${anon_url('http://www.notifymyandroid.com/')}" rel="noreferrer" onclick="window.open(this.href, '_blank'); return false;">${_('Notify My Android')}</a></h3>
-                        <p>${_('Notify My Android is a Prowl-like Android App and API that offers an easy way to send notifications from your application directly to your Android device.')}</p>
-                    </div>
-                </div>
-                <div class="col-lg-9 col-md-8 col-sm-8 col-xs-12">
-
-                    <fieldset class="component-group-list">
-
-                        <div class="field-pair row">
-                            <div class="col-lg-3 col-md-4 col-sm-5 col-xs-12">
-                                <label class="component-title">${_('Enable')}</label>
-                            </div>
-                            <div class="col-lg-9 col-md-8 col-sm-7 col-xs-12 component-desc">
-                                <input type="checkbox" class="enabler" name="use_nma" id="use_nma" ${('', 'checked="checked"')[bool(sickbeard.USE_NMA)]}/>
-                                <label for="use_nma">${_('send NMA notifications?')}</label>
-                            </div>
-                        </div>
-
-                        <div id="content_use_nma">
-
-                            <div class="field-pair row">
-                                <div class="col-lg-3 col-md-4 col-sm-5 col-xs-12">
-                                    <label class="component-title">${_('Notify on snatch')}</label>
-                                </div>
-                                <div class="col-lg-9 col-md-8 col-sm-7 col-xs-12 component-desc">
-                                    <input type="checkbox" name="nma_notify_onsnatch" id="nma_notify_onsnatch" ${('', 'checked="checked"')[bool(sickbeard.NMA_NOTIFY_ONSNATCH)]}/>
-                                    <label for="nma_notify_onsnatch">${_('send a notification when a download starts?')}</label>
-                                </div>
-                            </div>
-
-                            <div class="field-pair row">
-                                <div class="col-lg-3 col-md-4 col-sm-5 col-xs-12">
-                                    <label class="component-title">${_('Notify on download')}</label>
-                                </div>
-                                <div class="col-lg-9 col-md-8 col-sm-7 col-xs-12 component-desc">
-                                    <input type="checkbox" name="nma_notify_ondownload" id="nma_notify_ondownload" ${('', 'checked="checked"')[bool(sickbeard.NMA_NOTIFY_ONDOWNLOAD)]}/>
-                                    <label for="nma_notify_ondownload">${_('send a notification when a download finishes?')}</label>
-                                </div>
-                            </div>
-
-                            <div class="field-pair row">
-                                <div class="col-lg-3 col-md-4 col-sm-5 col-xs-12">
-                                    <label class="component-title">${_('Notify on subtitle download')}</label>
-                                </div>
-                                <div class="col-lg-9 col-md-8 col-sm-7 col-xs-12 component-desc">
-                                    <input type="checkbox" name="nma_notify_onsubtitledownload" id="nma_notify_onsubtitledownload" ${('', 'checked="checked"')[bool(sickbeard.NMA_NOTIFY_ONSUBTITLEDOWNLOAD)]}/>
-                                    <label for="nma_notify_onsubtitledownload">${_('send a notification when subtitles are downloaded?')}</label>
-                                </div>
-                            </div>
-
-                            <div class="field-pair row">
-                                <div class="col-lg-3 col-md-4 col-sm-5 col-xs-12">
-                                    <label class="component-title">${_('NMA API key')}</label>
-                                </div>
-                                <div class="col-lg-9 col-md-8 col-sm-7 col-xs-12 component-desc">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <input type="text" name="nma_api" id="nma_api" value="${sickbeard.NMA_API}" class="form-control input-sm input350" autocapitalize="off" />
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <label for="nma_api">${_('(multiple keys must be separated by commas, up to a maximum of 5)')}</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="field-pair row">
-                                <div class="col-lg-3 col-md-4 col-sm-5 col-xs-12">
-                                    <label class="component-title">${_('NMA priority')}</label>
-                                </div>
-                                <div class="col-lg-9 col-md-8 col-sm-7 col-xs-12 component-desc">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <select id="nma_priority" name="nma_priority" class="form-control input-sm input350">
-                                                <option value="-2" ${('', 'selected="selected"')[sickbeard.NMA_PRIORITY == '-2']}>${_('Very Low')}</option>
-                                                <option value="-1" ${('', 'selected="selected"')[sickbeard.NMA_PRIORITY == '-1']}>${_('Moderate')}</option>
-                                                <option value="0" ${('', 'selected="selected"')[sickbeard.NMA_PRIORITY == '0']}>${_('Normal')}</option>
-                                                <option value="1" ${('', 'selected="selected"')[sickbeard.NMA_PRIORITY == '1']}>${_('High')}</option>
-                                                <option value="2" ${('', 'selected="selected"')[sickbeard.NMA_PRIORITY == '2']}>${_('Emergency')}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <label for="nma_priority">${_('priority of NMA messages from SickChill.')}</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="testNotification" id="testNMA-result">${_('Click below to test.')}</div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <input  class="btn" type="button" value="Test NMA" id="testNMA" />
-                                    <input type="submit" class="config_submitter btn" value="${_('Save Changes')}" />
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </fieldset>
-                </div>
-            </div>
-
-            <div class="config-group-divider"></div>
-
             <!-- /pushalot component-group //-->
             <div class="row">
                 <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
@@ -2927,6 +2811,16 @@
 
                             <div class="field-pair row">
                                 <div class="col-lg-3 col-md-4 col-sm-5 col-xs-12">
+                                    <label class="component-title">${_('Notify on postprocess')}</label>
+                                </div>
+                                <div class="col-lg-9 col-md-8 col-sm-7 col-xs-12 component-desc">
+                                    <input type="checkbox" name="email_notify_onpostprocess" id="email_notify_onpostprocess" ${('', 'checked="checked"')[bool(sickbeard.EMAIL_NOTIFY_ONPOSTPROCESS)]}/>
+                                    <label for="email_notify_onpostprocess">${_('send a notification when a postprocessing finishes?')}</label>
+                                </div>
+                            </div>
+
+                            <div class="field-pair row">
+                                <div class="col-lg-3 col-md-4 col-sm-5 col-xs-12">
                                     <label class="component-title">${_('Notify on subtitle download')}</label>
                                 </div>
                                 <div class="col-lg-9 col-md-8 col-sm-7 col-xs-12 component-desc">
@@ -3181,10 +3075,29 @@
 
                             <div class="field-pair row">
                                 <div class="col-lg-3 col-md-4 col-sm-5 col-xs-12">
+                                    <label class="component-title">${_('Notify on subtitle download')}</label>
+                                </div>
+                                <div class="col-lg-9 col-md-8 col-sm-7 col-xs-12 component-desc">
+                                    <input type="checkbox" name="slack_notify_subtitledownload" id="clack_notify_subtitledownload" ${('', 'checked="checked"')[bool(sickbeard.SLACK_NOTIFY_SUBTITLEDOWNLOAD)]}/>
+                                    <label for="slack_notify_subtitledownload">${_('send a notification when subtitles are downloaded?')}</label>
+                                </div>
+                            </div>
+
+                            <div class="field-pair row">
+                                <div class="col-lg-3 col-md-4 col-sm-5 col-xs-12">
                                     <label for="slack_webhook" class="component-title">${_('Slack Incoming Webhook')}</label>
                                 </div>
                                 <div class="col-lg-9 col-md-8 col-sm-7 col-xs-12 component-desc">
                                     <input type="text" name="slack_webhook" id="slack_webhook" value="${sickbeard.SLACK_WEBHOOK}" class="form-control input-sm input350" autocapitalize="off" />
+                                </div>
+                            </div>
+
+                            <div class="field-pair row">
+                                <div class="col-lg-3 col-md-4 col-sm-5 col-xs-12">
+                                    <label for="slack_icon_emoji" class="component-title">${_('Slack Icon Emoji')}</label>
+                                </div>
+                                <div class="col-lg-9 col-md-8 col-sm-7 col-xs-12 component-desc">
+                                    <input type="text" name="slack_icon_emoji" id="slack_icon_emoji" value="${sickbeard.SLACK_ICON_EMOJI}" class="form-control input-sm input350" autocapitalize="off" />
                                 </div>
                             </div>
 
@@ -3207,6 +3120,127 @@
             </div>
 
             <div class="config-group-divider"></div>
+
+            <!-- /matrix component-group //-->
+            <div class="row">
+                <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                    <div class="component-group-desc">
+                        <span class="icon-notifiers-matrix" title="${_('Matrix')}"></span>
+                        <h3><a href="${anon_url('http://www.matrix.org/')}" rel="noreferrer" onclick="window.open(this.href, '_blank'); return false;">Matrix</a></h3>
+                        <p>${_('Matrix is an open fabric for communication that anyone can participate in.')}</p>
+                    </div>
+                </div>
+                <div class="col-lg-9 col-md-8 col-sm-8 col-xs-12">
+                    <fieldset class="component-group-list">
+
+                        <div class="field-pair row">
+                            <div class="col-lg-3 col-md-4 col-sm-5 col-xs-12">
+                                <label class="component-title">${_('Enable')}</label>
+                            </div>
+                            <div class="col-lg-9 col-md-8 col-sm-7 col-xs-12 component-desc">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <input type="checkbox" class="enabler" name="use_matrix" id="use_matrix" ${('', 'checked="checked"')[bool(sickbeard.USE_MATRIX)]}/>
+                                        <label for="use_matrix">${_('should SickChill post messages on Matrix?')}</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="content_use_matrix">
+
+                            <div class="field-pair row">
+                                <div class="col-lg-3 col-md-4 col-sm-5 col-xs-12">
+                                    <label class="component-title">${_('Notify on snatch')}</label>
+                                </div>
+                                <div class="col-lg-9 col-md-8 col-sm-7 col-xs-12 component-desc">
+                                    <input type="checkbox" name="matrix_notify_snatch" id="matrix_notify_snatch" ${('', 'checked="checked"')[bool(sickbeard.MATRIX_NOTIFY_SNATCH)]}/>
+                                    <label for="matrix_notify_snatch">${_('send a notification when a download starts?')}</label>
+                                </div>
+                            </div>
+
+                            <div class="field-pair row">
+                                <div class="col-lg-3 col-md-4 col-sm-5 col-xs-12">
+                                    <label class="component-title">${_('Notify on download')}</label>
+                                </div>
+                                <div class="col-lg-9 col-md-8 col-sm-7 col-xs-12 component-desc">
+                                    <input type="checkbox" name="matrix_notify_download" id="matrix_notify_download" ${('', 'checked="checked"')[bool(sickbeard.MATRIX_NOTIFY_DOWNLOAD)]}/>
+                                    <label for="matrix_notify_download">${_('send a notification when a download finishes?')}</label>
+                                </div>
+                            </div>
+
+                            <div class="field-pair row">
+                                <div class="col-lg-3 col-md-4 col-sm-5 col-xs-12">
+                                    <label class="component-title">${_('Notify on subtitle download')}</label>
+                                </div>
+                                <div class="col-lg-9 col-md-8 col-sm-7 col-xs-12 component-desc">
+                                    <input type="checkbox" name="matrix_notify_subtitledownload" id="matrix_notify_subtitledownload" ${('', 'checked="checked"')[bool(sickbeard.MATRIX_NOTIFY_SUBTITLEDOWNLOAD)]}/>
+                                    <label for="matrix_notify_subtitledownload">${_('send a notification when subtitles are downloaded?')}</label>
+                                </div>
+                            </div>
+
+                            <div class="field-pair row">
+                                <div class="col-lg-3 col-md-4 col-sm-5 col-xs-12">
+                                    <label class="component-title">${_('matrix User Auth Token')}</label>
+                                </div>
+                                <div class="col-lg-9 col-md-8 col-sm-7 col-xs-12 component-desc">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <input type="text" name="matrix_api_token" id="matrix_api_token" value="${sickbeard.MATRIX_API_TOKEN}" class="form-control input-sm input350" autocapitalize="off" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="field-pair row">
+                                <div class="col-lg-3 col-md-4 col-sm-5 col-xs-12">
+                                    <label class="component-title">${_('matrix server address')}</label>
+                                </div>
+                                <div class="col-lg-9 col-md-8 col-sm-7 col-xs-12 component-desc">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <input type="text" name="matrix_server" id="matrix_server" value="${sickbeard.MATRIX_SERVER}" class="form-control input-sm input350" autocapitalize="off" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="field-pair row">
+                                <div class="col-lg-3 col-md-4 col-sm-5 col-xs-12">
+                                    <label class="component-title">${_('matrix server room')}</label>
+                                </div>
+                                <div class="col-lg-9 col-md-8 col-sm-7 col-xs-12 component-desc">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <input type="text" name="matrix_room" id="matrix_room" value="${sickbeard.MATRIX_ROOM}" class="form-control input-sm input350" autocapitalize="off" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="testNotification" id="testMatrix-result">${_('Click below to test.')}</div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <input  class="btn" type="button" value="Test Matrix" id="testMatrix" />
+                                    <input type="submit" class="config_submitter btn" value="${_('Save Changes')}" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </fieldset>
+                </div>
+            </div>
+
+            <div class="config-group-divider"></div>
+
 
             <!-- /Discord component-group //-->
             <div class="row">

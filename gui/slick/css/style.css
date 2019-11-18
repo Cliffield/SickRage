@@ -2032,6 +2032,12 @@ div.metadataDiv .disabled {
     background-size: 32px;
 }
 
+.icon-notifiers-matrix {
+    background: url("../images/Matrix_Web.png");
+    background-size: 32px;
+    background-color: white;
+}
+
 .icon-notifiers-discord {
     background: url("../images/32px_discord_notifier.png");
     background-size: 32px;
@@ -2087,10 +2093,6 @@ div.metadataDiv .disabled {
 
 .icon-notifiers-boxcar2 {
     background-position: -414px 0;
-}
-
-.icon-notifiers-nma {
-    background-position: -450px 0;
 }
 
 .icon-notifiers-pushalot {

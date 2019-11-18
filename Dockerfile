@@ -4,8 +4,22 @@ ENV PYTHONIOENCODING="UTF-8"
 
 # TODO: Handle permissions so data/config isnt owned by root
 
-RUN apk add --update git mediainfo unrar
-RUN mkdir /app /var/run/sickchill
+RUN apk add --update --no-cache \
+    git \
+    mediainfo \
+    nodejs \
+    unrar \
+    tzdata \
+    libffi \
+    openssl \
+    && apk add --no-cache --virtual .build-deps \
+    gcc \
+    libffi-dev \
+    openssl-dev \
+    musl-dev \
+    && pip install pyopenssl \
+    && apk del .build-deps \
+    &&  mkdir /app /var/run/sickchill
 COPY . /app/sickchill
 
 WORKDIR /app/sickchill

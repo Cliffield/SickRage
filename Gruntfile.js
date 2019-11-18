@@ -89,7 +89,7 @@ module.exports = function(grunt) {
         clean: {
             dist: './dist/',
             'bower_components': './bower_components',
-            fonts: './gui/slick/css/*.ttf',
+            fonts: './gui/slick/css/fonts',
             options: {
                 force: true
             }
@@ -129,8 +129,9 @@ module.exports = function(grunt) {
                         "item.js",
                         "outlayer.js"
                     ],
-                    "openSans": [
-                        "*.ttf", "*.css"
+                    "open-sans-fontface": [
+                        "*.css",
+                        "fonts/**/*"
                     ]
                 },
                 bowerOptions: {
@@ -143,9 +144,9 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     dot: true,
-                    cwd: 'bower_components/openSans',
+                    cwd: 'bower_components/open-sans-fontface',
                     src: [
-                        '*.ttf'
+                        'fonts/**/*'
                     ],
                     dest: './gui/slick/css/'
                 }]
@@ -380,7 +381,7 @@ module.exports = function(grunt) {
                     if (!file) {
                         grunt.fatal('Missing file path.');
                     }
-                    var path = file.slice(0, -24); // slices 'sickchill-news/CHANGES.md' (len=24)
+                    var path = file.slice(0, -25); // slices 'sickchill-news/CHANGES.md' (len=25)
                     if (!path) {
                         grunt.fatal('path = "' + path + '"');
                     }

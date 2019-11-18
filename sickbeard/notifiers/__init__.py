@@ -21,7 +21,7 @@
 from __future__ import print_function, unicode_literals
 
 import sickbeard
-from sickbeard.notifiers import (boxcar2, discord, emailnotify, emby, freemobile, growl, join, kodi, libnotify, nma, nmj, nmjv2, plex, prowl, pushalot,
+from sickbeard.notifiers import (boxcar2, discord, emailnotify, emby, freemobile, growl, join, kodi, libnotify, matrix, nmj, nmjv2, plex, prowl, pushalot,
                                  pushbullet, pushover, pytivo, slack, synoindex, synologynotifier, telegram, trakt, tweet, twilio_notify)
 
 # home theater / nas
@@ -40,7 +40,6 @@ prowl_notifier = prowl.Notifier()
 libnotify_notifier = libnotify.Notifier()
 pushover_notifier = pushover.Notifier()
 boxcar2_notifier = boxcar2.Notifier()
-nma_notifier = nma.Notifier()
 pushalot_notifier = pushalot.Notifier()
 pushbullet_notifier = pushbullet.Notifier()
 freemobile_notifier = freemobile.Notifier()
@@ -52,6 +51,7 @@ twilio_notifier = twilio_notify.Notifier()
 trakt_notifier = trakt.Notifier()
 email_notifier = emailnotify.Notifier()
 slack_notifier = slack.Notifier()
+matrix_notifier = matrix.Notifier()
 discord_notifier = discord.Notifier()
 
 notifiers = [
@@ -69,7 +69,6 @@ notifiers = [
     prowl_notifier,
     pushover_notifier,
     boxcar2_notifier,
-    nma_notifier,
     pushalot_notifier,
     pushbullet_notifier,
     twitter_notifier,
@@ -77,6 +76,7 @@ notifiers = [
     trakt_notifier,
     email_notifier,
     slack_notifier,
+    matrix_notifier,
     discord_notifier,
     join_notifier,
 ]
@@ -85,6 +85,11 @@ notifiers = [
 def notify_download(ep_name):
     for n in notifiers:
         n.notify_download(ep_name)
+
+
+def notify_postprocess(ep_name):
+    for n in notifiers:
+        n.notify_postprocess(ep_name)
 
 
 def notify_subtitle_download(ep_name, lang):
